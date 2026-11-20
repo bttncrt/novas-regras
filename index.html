@@ -20,7 +20,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@500&family=Special+Gothic+Condensed+One&display=swap">
 <style>
   /* Layout: desktop com grid de 12 colunas (gutter e margem de 24px): logo, tabela e rodapé nas 12, textos nas colunas 7–12, gaveta em 8 colunas.
-     Mobile com grid de 4 colunas (gutter e margem de 16px): conteúdo nas 4, gaveta em 3. Tema escuro fixo. */
+     Mobile com grid de 4 colunas (gutter e margem de 16px): conteúdo nas 4, gaveta em tela cheia. Página em tema escuro; gaveta em tema claro. */
   :root {
     --bg: #000000;
     --fg: #ffffff;
@@ -78,10 +78,11 @@
     justify-content: center;
     opacity: 0;
     will-change: transform;
-    transition: width 0.25s var(--ease), height 0.25s var(--ease), margin 0.25s var(--ease), opacity 0.2s ease;
+    transition: width 0.25s var(--ease), height 0.25s var(--ease), margin 0.25s var(--ease), background-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
   }
   .cursor svg { position: absolute; width: 24px; height: 24px; opacity: 0; transform: scale(0.4); transition: opacity 0.2s ease, transform 0.25s var(--ease); }
   .cursor.on { opacity: 1; }
+  .cursor.on-light { background: #000000; color: #ffffff; }
   .cursor.link { width: 64px; height: 64px; margin: -32px 0 0 -32px; }
   .cursor.link:not(.close-mode) .i-arrow,
   .cursor.link.close-mode .i-x { opacity: 1; transform: none; }
@@ -172,8 +173,17 @@
     bottom: 0;
     width: min(calc(var(--drawer-cols) * var(--colw) + (var(--drawer-cols) - 1) * var(--g) + var(--m)), 100%);
     box-sizing: border-box;
+    /* Gaveta em tema claro */
+    --fg: #000000;
+    --bg: #ffffff;
+    --surface: #ffffff;
+    --muted: rgba(0, 0, 0, 0.45);
+    --disabled-bg: rgba(0, 0, 0, 0.12);
+    --disabled-fg: rgba(0, 0, 0, 0.45);
+    --dgap: 80px;
+    color-scheme: light;
     background: var(--surface);
-    border-left: 1px solid var(--rule);
+    color: var(--fg);
     z-index: 21;
     overflow-y: auto;
     transform: translateX(100%);
@@ -191,15 +201,19 @@
   body.open .drawer { transform: none; }
   body.open { overflow: hidden; }
 
-  .drawer-body { display: flex; flex-direction: column; gap: 80px; width: min(540px, 100%); min-width: 0; }
+  .drawer-body { display: flex; flex-direction: column; gap: var(--dgap); width: min(540px, 100%); min-width: 0; }
+  .drawer-body { min-height: 100%; }
+  .drawer-body .privacy { margin-top: auto; }
+  .done:not([hidden]) ~ .privacy { display: none; }
   .drawer h2 { margin: 0; font-weight: 500; font-size: 32px; line-height: 1.4; letter-spacing: -0.02em; }
   .close {
     appearance: none; background: none; border: 0; padding: 0;
     font: inherit; letter-spacing: inherit; color: var(--fg); cursor: pointer;
     flex: 0 0 auto;
+    align-self: flex-start;
   }
 
-  form { display: flex; flex-direction: column; gap: 80px; margin: 0; }
+  form { display: flex; flex-direction: column; gap: var(--dgap); margin: 0; }
   .fields { display: flex; flex-direction: column; gap: 40px; }
   .field input {
     width: 100%;
@@ -224,7 +238,7 @@
   }
   .field .err { font-size: 13px; padding-top: 6px; display: block; }
 
-  .actions { display: flex; flex-direction: column; gap: 24px; align-items: flex-start; }
+  .actions { display: flex; flex-direction: column; gap: 16px; align-items: flex-start; }
   .submit {
     appearance: none;
     border: 0;
@@ -237,7 +251,8 @@
     cursor: pointer;
     transition: background 0.2s ease, color 0.2s ease;
   }
-  .submit:disabled { background: rgba(255, 255, 255, 0.12); color: rgba(255, 255, 255, 0.4); cursor: default; }
+  .submit:disabled { background: var(--disabled-bg, rgba(255, 255, 255, 0.12)); color: var(--disabled-fg, rgba(255, 255, 255, 0.4)); cursor: default; }
+  .status:empty { display: none; }
   .status { max-width: 540px; }
   .privacy { color: var(--muted); font-size: 13px; max-width: 540px; }
 
@@ -269,7 +284,7 @@
 
     .drawer {
       width: 100%;
-      border-left: 0;
+      --dgap: 48px;
       padding-top: calc(40px + env(safe-area-inset-top, 0px));
       padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px));
       padding-left: max(16px, env(safe-area-inset-left, 0px));
@@ -279,10 +294,8 @@
       align-items: stretch;
       gap: 40px;
     }
-    .close { align-self: flex-start; }
-    .drawer-body { gap: 24px; width: 100%; }
-    form { gap: 24px; }
-    .actions { gap: 16px; }
+    .drawer-body { width: 100%; flex: 1 0 auto; min-height: 0; }
+    .fields { gap: 32px; }
     .done p { font-size: 20px; }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -359,13 +372,14 @@
       <div class="actions">
         <button class="submit" id="submit" type="submit" disabled>Submeter</button>
         <p class="status" id="status" role="status"></p>
-        <p class="privacy">Seu nome, ocupação, instituição e cidade aparecem na lista pública. O e-mail não é publicado.</p>
       </div>
     </form>
 
     <div class="done" id="done" hidden>
       <p>Obrigado por participar do nosso compromisso coletivo. Compartilhe com outros estudantes e profissionais para dar mais visibilidade ao movimento.</p>
     </div>
+
+    <p class="privacy">Seu nome, ocupação, instituição e cidade aparecem na lista pública. O e-mail não é publicado.</p>
   </div>
   <button class="close" id="close" type="button" data-cursor="close">Fechar</button>
 </aside>
@@ -452,6 +466,7 @@
       var t = e.target && e.target.closest ? e.target.closest(linkSel) : null;
       cur.classList.toggle("link", !!t);
       cur.classList.toggle("close-mode", !!(t && t.getAttribute("data-cursor") === "close"));
+      cur.classList.toggle("on-light", !!(e.target && e.target.closest && e.target.closest(".drawer")));
     }
     function enable(on) {
       document.documentElement.classList.toggle("custom-cursor", on);
