@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Novas Regras</title>
+<meta name="description" content="Manifesto de estudantes de design por regras mais justas nos prêmios de design. Leia as demandas e assine o compromisso.">
+<meta property="og:title" content="Novas Regras">
+<meta property="og:description" content="Manifesto de estudantes de design por regras mais justas nos prêmios de design. Leia as demandas e assine o compromisso.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#000000">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; }
+  img { max-width: 100%; }
+  [hidden] { display: none !important; }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@500&family=Special+Gothic+Condensed+One&display=swap">
+<style>
+  /* Layout: desktop com grid de 12 colunas (gutter e margem de 24px): logo, tabela e rodapé nas 12, textos nas colunas 7–12, gaveta em 8 colunas.
+     Mobile com grid de 4 colunas (gutter e margem de 16px): conteúdo nas 4, gaveta em 3. Tema escuro fixo. */
+  :root {
+    --bg: #000000;
+    --fg: #ffffff;
+    --surface: #0d0d0d;
+    --muted: rgba(255, 255, 255, 0.4);
+    --rule: rgba(255, 255, 255, 0.24);
+    --scrim: rgba(0, 0, 0, 0.8);
+    --selection: #F40202;
+    --selection-fg: #000000;
+    --display: "Special Gothic Condensed One", "Arial Narrow", "Helvetica Neue Condensed", Impact, sans-serif;
+    --text: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --cols: 12;
+    --gap: 160px;
+    --m: 24px;
+    --g: 24px;
+    --colw: calc((100vw - 2 * var(--m) - (var(--cols) - 1) * var(--g)) / var(--cols));
+    --drawer-cols: 8;
+    --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+    color-scheme: dark;
+  }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--text);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.4;
+    letter-spacing: -0.02em;
+    -webkit-font-smoothing: antialiased;
+  }
+  p { margin: 0; }
+  ::selection { background: var(--selection); color: var(--selection-fg); }
+
+  /* Rolagem suave (Lenis) */
+  html.lenis, html.lenis body { height: auto; }
+  .lenis.lenis-smooth { scroll-behavior: auto !important; }
+  .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+  .lenis.lenis-stopped { overflow: hidden; }
+
+  /* Cursor: círculo de 16px que cresce para 64px com ícone sobre links e botões (só com mouse) */
+  .cursor {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 16px;
+    height: 16px;
+    margin: -8px 0 0 -8px;
+    border-radius: 50%;
+    background: var(--fg);
+    color: var(--bg);
+    pointer-events: none;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    will-change: transform;
+    transition: width 0.25s var(--ease), height 0.25s var(--ease), margin 0.25s var(--ease), opacity 0.2s ease;
+  }
+  .cursor svg { position: absolute; width: 24px; height: 24px; opacity: 0; transform: scale(0.4); transition: opacity 0.2s ease, transform 0.25s var(--ease); }
+  .cursor.on { opacity: 1; }
+  .cursor.link { width: 64px; height: 64px; margin: -32px 0 0 -32px; }
+  .cursor.link:not(.close-mode) .i-arrow,
+  .cursor.link.close-mode .i-x { opacity: 1; transform: none; }
+  html.custom-cursor, html.custom-cursor * { cursor: none !important; }
+
+  /* Grid da página */
+  .page {
+    display: grid;
+    grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+    column-gap: var(--g);
+    row-gap: var(--gap);
+    padding-block: var(--m);
+    padding-left: max(var(--m), env(safe-area-inset-left, 0px));
+    padding-right: max(var(--m), env(safe-area-inset-right, 0px));
+  }
+  .page > * { grid-column: 1 / -1; min-width: 0; }
+  .manifesto { display: contents; }
+  .manifesto > * { grid-column: 7 / -1; min-width: 0; }
+
+  /* Logo */
+  .logo { margin: 0; line-height: 0; text-align: center; font-weight: 400; }
+  #logo {
+    display: inline-block;
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: 22.99vw;
+    letter-spacing: -0.02em;
+    line-height: 0.8;
+    white-space: nowrap;
+    text-transform: uppercase;
+    padding-top: 0.02em;
+  }
+  #logo .w { display: inline-block; }
+
+  .opening { display: flex; flex-direction: column; gap: 1.4em; }
+
+  .rules { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 24px; }
+  .rules li { display: flex; gap: 24px; align-items: flex-start; }
+  .rules .n { flex: 0 0 40px; font-variant-numeric: tabular-nums; }
+  .rules .t { flex: 1 1 0; min-width: 0; }
+
+  .cta-wrap { display: flex; }
+  .cta {
+    appearance: none;
+    background: none;
+    border: 0;
+    padding: 0;
+    color: var(--fg);
+    font: inherit;
+    letter-spacing: inherit;
+    cursor: pointer;
+  }
+  .cta:focus-visible, .close:focus-visible, .submit:focus-visible { outline: 2px solid var(--fg); outline-offset: 4px; }
+
+  /* Lista de assinaturas */
+  .signatures { min-width: 0; }
+  .count { display: none; }
+  .row {
+    display: grid;
+    grid-template-columns: 94px repeat(4, minmax(0, 1fr));
+    column-gap: 24px;
+    padding-block: 24px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .row > * { min-width: 0; overflow-wrap: anywhere; }
+  .row.head { border-bottom-color: var(--fg); }
+  .row.head-m { display: none; }
+  .row .num { font-variant-numeric: tabular-nums; }
+  .row .meta { display: none; }
+  .row.note { grid-template-columns: 94px minmax(0, 1fr); }
+  .row.note .msg { color: var(--muted); }
+
+  footer { text-align: center; }
+
+  /* Gaveta de assinatura */
+  .scrim {
+    position: fixed;
+    inset: 0;
+    background: var(--scrim);
+    z-index: 20;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+  .drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(calc(var(--drawer-cols) * var(--colw) + (var(--drawer-cols) - 1) * var(--g) + var(--m)), 100%);
+    box-sizing: border-box;
+    background: var(--surface);
+    border-left: 1px solid var(--rule);
+    z-index: 21;
+    overflow-y: auto;
+    transform: translateX(100%);
+    transition: transform 0.3s var(--ease);
+    padding-top: calc(40px + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px));
+    padding-left: 40px;
+    padding-right: max(40px, env(safe-area-inset-right, 0px));
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+  }
+  body.open .scrim { opacity: 1; }
+  body.open .drawer { transform: none; }
+  body.open { overflow: hidden; }
+
+  .drawer-body { display: flex; flex-direction: column; gap: 80px; width: min(540px, 100%); min-width: 0; }
+  .drawer h2 { margin: 0; font-weight: 500; font-size: 32px; line-height: 1.4; letter-spacing: -0.02em; }
+  .close {
+    appearance: none; background: none; border: 0; padding: 0;
+    font: inherit; letter-spacing: inherit; color: var(--fg); cursor: pointer;
+    flex: 0 0 auto;
+  }
+
+  form { display: flex; flex-direction: column; gap: 80px; margin: 0; }
+  .fields { display: flex; flex-direction: column; gap: 40px; }
+  .field input {
+    width: 100%;
+    box-sizing: border-box;
+    border: 0;
+    border-bottom: 1px solid var(--fg);
+    border-radius: 0;
+    padding: 16px 0;
+    background: transparent;
+    color: var(--fg);
+    caret-color: var(--fg);
+    font: inherit;
+    letter-spacing: inherit;
+    outline: none;
+  }
+  .field input::placeholder { color: var(--muted); opacity: 1; }
+  .field input:focus { border-bottom-width: 2px; padding-bottom: 15px; }
+  .field input[aria-invalid="true"] { border-bottom-style: dashed; }
+  .field input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px var(--surface) inset;
+    -webkit-text-fill-color: var(--fg);
+  }
+  .field .err { font-size: 13px; padding-top: 6px; display: block; }
+
+  .actions { display: flex; flex-direction: column; gap: 24px; align-items: flex-start; }
+  .submit {
+    appearance: none;
+    border: 0;
+    border-radius: 200px;
+    padding: 16px 24px;
+    background: var(--fg);
+    color: var(--bg);
+    font: inherit;
+    letter-spacing: inherit;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .submit:disabled { background: rgba(255, 255, 255, 0.12); color: rgba(255, 255, 255, 0.4); cursor: default; }
+  .status { max-width: 540px; }
+  .privacy { color: var(--muted); font-size: 13px; max-width: 540px; }
+
+  .done p { font-size: 24px; line-height: 1.3; letter-spacing: -0.02em; }
+
+  /* Tablet */
+  @media (max-width: 900px) {
+    :root { --gap: 96px; }
+    .manifesto > * { grid-column: 1 / -1; }
+  }
+
+  /* Mobile (Figma 360px): margem de 16px, blocos a cada 80px, tabela em 2 colunas, gaveta em tela cheia */
+  @media (max-width: 640px) {
+    :root { --cols: 4; --gap: 80px; --m: 16px; --g: 16px; }
+    .logo { text-align: left; }
+    #logo { font-size: 46vw; line-height: 0.82; }
+    #logo .w { display: block; width: max-content; }
+
+    .row { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; padding-block: 16px; }
+    .row.head { display: none; }
+    .row.head.head-m { display: grid; }
+    .row .num { grid-column: 1; grid-row: 1; color: var(--muted); }
+    .row .name { grid-column: 1; grid-row: 2; }
+    .row .ci { grid-column: 2; grid-row: 1; color: var(--muted); }
+    .row .ins { grid-column: 2; grid-row: 2; }
+    .row .oc { display: none; }
+    .row.note { grid-template-columns: minmax(0, 1fr); }
+    .row.note > span:first-child { display: none; }
+
+    .drawer {
+      width: 100%;
+      border-left: 0;
+      padding-top: calc(40px + env(safe-area-inset-top, 0px));
+      padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px));
+      padding-left: max(16px, env(safe-area-inset-left, 0px));
+      padding-right: max(16px, env(safe-area-inset-right, 0px));
+      flex-direction: column-reverse;
+      justify-content: flex-end;
+      align-items: stretch;
+      gap: 40px;
+    }
+    .close { align-self: flex-start; }
+    .drawer-body { gap: 24px; width: 100%; }
+    form { gap: 24px; }
+    .actions { gap: 16px; }
+    .done p { font-size: 20px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .scrim, .drawer, .cursor, .cursor svg { transition: none; }
+  }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+</style>
+</head>
+<body>
+<div class="page">
+  <h1 class="logo" aria-label="Novas Regras" data-reveal><span id="logo"><span class="w">Novas</span> <span class="w">Regras</span></span></h1>
+
+  <main class="manifesto">
+    <p data-reveal>Às organizações de prêmios de design,<br>aos jurados e instituições parceiras e,<br>principalmente, aos estudantes de design.</p>
+
+    <div class="opening">
+      <p data-reveal>Nos últimos anos, observamos um padrão nos prêmios nacionais de design. Estudantes são uma parte expressiva dos inscritos, mas participam nas mesmas condições que profissionais: pagam as mesmas taxas, são avaliados por critérios muito próximos e, quando não são premiados, raramente recebem retorno sobre o próprio trabalho. Entre os premiados, quem está distante dos eixos centrais do Brasil nem sempre consegue arcar com os custos da viagem ou com o ingresso da cerimônia. Não pretendemos discutir aqui as razões que levaram a esse cenário, mas reconhecer que ele se tornou a regra, e não a exceção.</p>
+      <p data-reveal>Os prêmios cumprem um papel essencial. Reconhecem a qualidade dos projetos, dão visibilidade a novos talentos e, num momento em que entrar na profissão está mais difícil, podem ser decisivos para quem está começando. É justamente por acreditarmos nesse papel que propomos uma revisão. Estudantes já têm acesso à meia-entrada em cinemas, teatros e shows; parece natural que o mesmo princípio chegue aos prêmios da nossa própria área. E, considerando o volume de inscrições estudantis, acreditamos que parte do que é arrecadado com elas deveria retornar à formação dos futuros profissionais.</p>
+      <p data-reveal>Não questionamos quem participa dos prêmios: nós também participamos. Sabemos que as mudanças que propomos dependem de quem organiza, julga e patrocina a premiação. Acreditamos que prêmios mais acessíveis são também prêmios mais fortes: mais diversos, mais próximos das universidades e mais comprometidos com a formação dos profissionais, dos jurados e do futuro da disciplina.</p>
+      <p data-reveal>Este manifesto é um convite ao diálogo. Ele existe para ser assinado, compartilhado e discutido.</p>
+      <p data-reveal>Que as premiações de 2027 sejam as primeiras com novas regras.</p>
+    </div>
+
+    <ol class="rules">
+      <li data-reveal><span class="n">01</span><span class="t">Inscrições com 50% de desconto para todos os estudantes.</span></li>
+      <li data-reveal><span class="n">02</span><span class="t">Estudantes de grupos minorizados têm isenção total de inscrição.</span></li>
+      <li data-reveal><span class="n">03</span><span class="t">Ingresso gratuito nas cerimônias para estudantes.</span></li>
+      <li data-reveal><span class="n">04</span><span class="t">Parcerias com estúdios e instituições para custear o deslocamento de premiados que não moram na região da premiação.</span></li>
+      <li data-reveal><span class="n">05</span><span class="t">Os critérios de avaliação são públicos antes da inscrição.</span></li>
+      <li data-reveal><span class="n">06</span><span class="t">Estudante é avaliado como estudante.</span></li>
+      <li data-reveal><span class="n">07</span><span class="t">Todo projeto inscrito recebe devolutiva, independente se é um projeto vencedor ou não.</span></li>
+      <li data-reveal><span class="n">08</span><span class="t">As associações divulgam quanto arrecadam com inscrições de estudantes.</span></li>
+      <li data-reveal><span class="n">09</span><span class="t">As associações retornam parte desse valor em treinamentos, palestras e outras formações nas universidades.</span></li>
+    </ol>
+
+    <div class="cta-wrap" data-reveal>
+      <button class="cta" id="open" type="button" aria-haspopup="dialog" aria-controls="drawer">Assine o compromisso</button>
+    </div>
+  </main>
+
+  <section class="signatures" aria-label="Assinaturas" data-reveal>
+    <div class="count"><span>Assinaturas</span><span class="total" id="total"></span></div>
+    <div class="row head" role="presentation">
+      <span>#</span><span>Nome</span><span>Ocupação</span><span>Instituição</span><span>Cidade</span>
+    </div>
+    <div class="row head head-m" role="presentation"><span>Nome</span><span>Instituição</span></div>
+    <div id="list" aria-live="polite">
+      <div class="row note"><span></span><span class="msg">Carregando assinaturas…</span></div>
+    </div>
+  </section>
+
+  <footer data-reveal>Iniciativa autônoma de um grupo de estudantes dos cursos de Design da Universidade Federal do Rio Grande do Sul</footer>
+</div>
+
+<!-- Ícones: Lucide (lucide.dev, licença ISC) — arrow-right e x, com terminações retas -->
+<div class="cursor" id="cursor" aria-hidden="true">
+  <svg class="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="butt" stroke-linejoin="miter"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+  <svg class="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="butt" stroke-linejoin="miter"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+</div>
+<div class="scrim" id="scrim" data-cursor="close" hidden></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" data-lenis-prevent hidden>
+  <div class="drawer-body">
+    <h2 id="drawer-title">Assine o compromisso</h2>
+
+    <form id="form" novalidate>
+      <div class="hp" aria-hidden="true"><label for="f-site">Site</label><input id="f-site" name="site" tabindex="-1" autocomplete="off"></div>
+      <div class="fields">
+        <div class="field"><input id="f-nome" name="nome" placeholder="Nome" aria-label="Nome" autocomplete="name" maxlength="120" required></div>
+        <div class="field"><input id="f-email" name="email" type="email" placeholder="E-mail" aria-label="E-mail" autocomplete="email" maxlength="120" required><span class="err" id="email-err" hidden>Confira o e-mail: ele precisa ter o formato nome@dominio.com.</span></div>
+        <div class="field"><input id="f-ocupacao" name="ocupacao" placeholder="Ocupação" aria-label="Ocupação" autocomplete="organization-title" maxlength="80" required></div>
+        <div class="field"><input id="f-instituicao" name="instituicao" placeholder="Instituição" aria-label="Instituição" autocomplete="organization" maxlength="120" required></div>
+        <div class="field"><input id="f-cidade" name="cidade" placeholder="Cidade" aria-label="Cidade" autocomplete="address-level2" maxlength="80" required></div>
+      </div>
+      <div class="actions">
+        <button class="submit" id="submit" type="submit" disabled>Submeter</button>
+        <p class="status" id="status" role="status"></p>
+        <p class="privacy">Seu nome, ocupação, instituição e cidade aparecem na lista pública. O e-mail não é publicado.</p>
+      </div>
+    </form>
+
+    <div class="done" id="done" hidden>
+      <p>Obrigado por participar do nosso compromisso coletivo. Compartilhe com outros estudantes e profissionais para dar mais visibilidade ao movimento.</p>
+    </div>
+  </div>
+  <button class="close" id="close" type="button" data-cursor="close">Fechar</button>
+</aside>
+
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var listEl = $("list");
+  var drawer = $("drawer"), scrim = $("scrim");
+  var form = $("form"), submitBtn = $("submit"), statusEl = $("status"), doneEl = $("done");
+  var fields = ["nome", "email", "ocupacao", "instituicao", "cidade"];
+  var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  var sending = false, lastFocus = null;
+
+  /* Rolagem suave */
+  var lenis = null;
+  if (window.Lenis && !reduceMotion) {
+    try {
+      lenis = new window.Lenis({ lerp: 0.09, wheelMultiplier: 0.9 });
+      var tick = function (t) { lenis.raf(t); requestAnimationFrame(tick); };
+      requestAnimationFrame(tick);
+    } catch (e) { lenis = null; }
+  }
+
+  /* Logo ocupa a largura disponível (uma linha no desktop, duas no mobile) */
+  function fitLogo() {
+    var el = $("logo"), box = el.parentElement;
+    el.style.fontSize = "";
+    var avail = box.clientWidth, w = el.getBoundingClientRect().width;
+    if (avail && w) {
+      var cur = parseFloat(getComputedStyle(el).fontSize);
+      el.style.fontSize = (cur * avail / w) + "px";
+    }
+  }
+  var fontsReady = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+  fontsReady.then(fitLogo);
+  window.addEventListener("resize", fitLogo);
+  fitLogo();
+
+  /* Entrada dos textos: sobem 24px enquanto aparecem, em cascata.
+     O que está na tela anima no carregamento; o resto anima ao entrar na tela. */
+  (function () {
+    var items = Array.prototype.slice.call(document.querySelectorAll("[data-reveal]"));
+    if (reduceMotion || !("IntersectionObserver" in window) || !document.body.animate) return;
+    var frames = [{ opacity: 0, transform: "translateY(24px)" }, { opacity: 1, transform: "none" }];
+    var anims = new Map();
+    items.forEach(function (el) {
+      var a = el.animate(frames, { duration: 900, easing: "cubic-bezier(0.2, 0.7, 0.2, 1)", fill: "both" });
+      a.pause(); a.currentTime = 0;
+      anims.set(el, a);
+    });
+    var batch = 0, resetT = null;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        io.unobserve(e.target);
+        var a = anims.get(e.target);
+        a.effect.updateTiming({ delay: batch * 120 });
+        batch++;
+        a.play();
+      });
+      clearTimeout(resetT);
+      resetT = setTimeout(function () { batch = 0; }, 80);
+    }, { rootMargin: "0px 0px -6% 0px" });
+    var started = false;
+    function start() { if (started) return; started = true; items.forEach(function (el) { io.observe(el); }); }
+    fontsReady.then(start);
+    setTimeout(start, 1200);
+  })();
+
+  /* Cursor personalizado, apenas em dispositivos com mouse */
+  (function () {
+    var fine = window.matchMedia("(hover: hover) and (pointer: fine)");
+    var cur = $("cursor");
+    var x = -100, y = -100, raf = null;
+    var linkSel = "a[href], button:not(:disabled), [data-cursor]";
+    function place() { raf = null; cur.style.transform = "translate3d(" + x + "px," + y + "px,0)"; }
+    function onMove(e) {
+      x = e.clientX; y = e.clientY;
+      if (!raf) raf = requestAnimationFrame(place);
+      cur.classList.add("on");
+      var t = e.target && e.target.closest ? e.target.closest(linkSel) : null;
+      cur.classList.toggle("link", !!t);
+      cur.classList.toggle("close-mode", !!(t && t.getAttribute("data-cursor") === "close"));
+    }
+    function enable(on) {
+      document.documentElement.classList.toggle("custom-cursor", on);
+      if (on) document.addEventListener("mousemove", onMove, { passive: true });
+      else { document.removeEventListener("mousemove", onMove); cur.classList.remove("on", "link", "close-mode"); }
+    }
+    document.documentElement.addEventListener("mouseleave", function () { cur.classList.remove("on"); });
+    enable(fine.matches);
+    if (fine.addEventListener) fine.addEventListener("change", function (m) { enable(m.matches); });
+  })();
+
+  /* Gaveta */
+  function resetDrawer() {
+    form.reset();
+    form.hidden = false;
+    doneEl.hidden = true;
+    $("f-email").removeAttribute("aria-invalid");
+    $("email-err").hidden = true;
+    statusEl.textContent = "";
+    sending = false;
+    refresh();
+  }
+  function openDrawer() {
+    lastFocus = document.activeElement;
+    resetDrawer();
+    drawer.hidden = false; scrim.hidden = false;
+    if (lenis) lenis.stop();
+    requestAnimationFrame(function () {
+      document.body.classList.add("open");
+      setTimeout(function () { $("f-nome").focus(); }, 50);
+    });
+  }
+  function closeDrawer() {
+    document.body.classList.remove("open");
+    setTimeout(function () { drawer.hidden = true; scrim.hidden = true; resetDrawer(); }, 300);
+    if (lenis) lenis.start();
+    if (lastFocus) lastFocus.focus();
+  }
+  $("open").addEventListener("click", openDrawer);
+  $("close").addEventListener("click", closeDrawer);
+  scrim.addEventListener("click", closeDrawer);
+  document.addEventListener("keydown", function (e) {
+    if (!document.body.classList.contains("open")) return;
+    if (e.key === "Escape") closeDrawer();
+    if (e.key === "Tab") {
+      var f = drawer.querySelectorAll("input:not([disabled]), button:not([disabled])");
+      var vis = Array.prototype.filter.call(f, function (x) { return x.offsetParent !== null; });
+      if (!vis.length) return;
+      var a = vis[0], z = vis[vis.length - 1];
+      if (e.shiftKey && document.activeElement === a) { e.preventDefault(); z.focus(); }
+      else if (!e.shiftKey && document.activeElement === z) { e.preventDefault(); a.focus(); }
+    }
+  });
+
+  /* Formulário */
+  function values() {
+    var v = {};
+    fields.forEach(function (k) { v[k] = $("f-" + k).value.trim().replace(/\s+/g, " "); });
+    return v;
+  }
+  function valid(v) {
+    return fields.every(function (k) { return v[k].length > 0; }) && emailRe.test(v.email);
+  }
+  function refresh() {
+    submitBtn.disabled = sending || !valid(values());
+  }
+  form.addEventListener("input", function () {
+    var em = $("f-email");
+    if (em.getAttribute("aria-invalid") === "true" && emailRe.test(em.value.trim())) {
+      em.removeAttribute("aria-invalid"); $("email-err").hidden = true;
+    }
+    refresh();
+  });
+  $("f-email").addEventListener("blur", function () {
+    var v = this.value.trim();
+    var bad = v.length > 0 && !emailRe.test(v);
+    if (bad) this.setAttribute("aria-invalid", "true"); else this.removeAttribute("aria-invalid");
+    $("email-err").hidden = !bad;
+  });
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var v = values();
+    if (!valid(v) || sending) return;
+    sending = true; refresh();
+    statusEl.textContent = "Enviando…";
+    v.site = $("f-site").value;
+    fetch("/api/assinaturas", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(v)
+    }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (d) { return { ok: r.ok, d: d }; });
+    }).then(function (res) {
+      sending = false;
+      if (!res.ok) {
+        statusEl.textContent = res.d && res.d.erro ? res.d.erro : "A assinatura não foi enviada. Tente de novo em alguns instantes.";
+        refresh();
+        return;
+      }
+      statusEl.textContent = "";
+      form.hidden = true; doneEl.hidden = false;
+      $("close").focus();
+      load();
+    }).catch(function () {
+      sending = false;
+      statusEl.textContent = "A assinatura não foi enviada. Verifique sua conexão e tente de novo.";
+      refresh();
+    });
+  });
+
+  /* Lista */
+  function cell(cls, text) {
+    var s = document.createElement("span");
+    if (cls) s.className = cls;
+    s.textContent = text;
+    return s;
+  }
+  function note(text) {
+    listEl.textContent = "";
+    var r = document.createElement("div");
+    r.className = "row note";
+    r.appendChild(cell("", ""));
+    r.appendChild(cell("msg", text));
+    listEl.appendChild(r);
+  }
+  function str(x) { return typeof x === "string" ? x : ""; }
+  function pad(n) { return String(n).padStart(3, "0"); }
+  function render(items) {
+    $("total").textContent = items.length ? pad(items.length) : "";
+    if (!items.length) { note("Ainda não há assinaturas. Assine o compromisso para abrir a lista."); return; }
+    var total = items.length;
+    var frag = document.createDocumentFragment();
+    items.slice().reverse().forEach(function (x, i) {
+      var r = document.createElement("div");
+      r.className = "row";
+      r.appendChild(cell("num", pad(total - i)));
+      r.appendChild(cell("name", str(x.nome)));
+      r.appendChild(cell("oc", str(x.ocupacao)));
+      r.appendChild(cell("ins", str(x.instituicao)));
+      r.appendChild(cell("ci", str(x.cidade)));
+      frag.appendChild(r);
+    });
+    listEl.textContent = "";
+    listEl.appendChild(frag);
+  }
+
+  var loaded = false;
+  function load() {
+    var ctrl = window.AbortController ? new AbortController() : null;
+    var t = setTimeout(function () { if (ctrl) ctrl.abort(); }, 10000);
+    fetch("/api/assinaturas", { cache: "no-store", signal: ctrl ? ctrl.signal : undefined })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (d) { clearTimeout(t); loaded = true; render(Array.isArray(d.assinaturas) ? d.assinaturas : []); })
+      .catch(function () { clearTimeout(t); if (!loaded) note("A lista de assinaturas não carregou. Atualize a página para tentar de novo."); });
+  }
+  load();
+  setInterval(function () { if (!document.hidden) load(); }, 60000);
+})();
+</script>
+</body>
+</html>
