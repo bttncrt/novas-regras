@@ -135,6 +135,11 @@
     letter-spacing: inherit;
     cursor: pointer;
   }
+  /* Sublinhado só quando não há cursor personalizado (toque, movimento reduzido, sem JS) ou no mobile */
+  html:not(.custom-cursor) .cta { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+  @media (max-width: 640px) {
+    .cta { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+  }
   .cta:focus-visible, .close:focus-visible, .submit:focus-visible { outline: 2px solid var(--fg); outline-offset: 4px; }
 
   /* Lista de assinaturas */
@@ -474,8 +479,10 @@
       else { document.removeEventListener("mousemove", onMove); cur.classList.remove("on", "link", "close-mode"); }
     }
     document.documentElement.addEventListener("mouseleave", function () { cur.classList.remove("on"); });
-    enable(fine.matches);
-    if (fine.addEventListener) fine.addEventListener("change", function (m) { enable(m.matches); });
+    var calm = window.matchMedia("(prefers-reduced-motion: reduce)");
+    function update() { enable(fine.matches && !calm.matches); }
+    update();
+    if (fine.addEventListener) { fine.addEventListener("change", update); calm.addEventListener("change", update); }
   })();
 
   /* Gaveta */
